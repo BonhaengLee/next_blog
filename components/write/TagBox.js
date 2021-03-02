@@ -5,6 +5,7 @@ const TagBoxBlock = styled.div`
     width: 100%;
     border-top: 1px solid gray;
     padding-top: 2rem;
+
     h4 {
         color: gray;
         margin-top: 0;
@@ -22,8 +23,9 @@ const TagForm = styled.form`
     button {
         outline: none;
         border: none;
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
+
     input {
         padding: 0.5rem;
         flex: 1;
@@ -33,7 +35,7 @@ const TagForm = styled.form`
         padding-right: 1rem;
         padding-left: 1rem;
         border: none;
-        background: black;
+        background: gray;
         color: white;
         font-weight: bold;
         &:hover {
@@ -57,7 +59,7 @@ const TagListBlock = styled.div`
 `;
 
 // React.memo를 사용하여 tag 값이 바뀔 때만 리렌더링되도록 처리
-const TagItem = React.memo(({ tag, onRemove }) => (
+const TagItem = React.memo(({ tag, onRemove, onChangeTags }) => (
     <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
 ));
 
@@ -70,7 +72,7 @@ const TagList = React.memo(({ tags, onRemove }) => (
     </TagListBlock>
 ));
 
-const TagBox = () => {
+const TagBox = ({ tags, onChangeTags }) => {
     const [input, setInput] = useState("");
     const [localTags, setLocalTags] = useState([]);
 
@@ -80,18 +82,18 @@ const TagBox = () => {
             if (localTags.includes(tag)) return; // 이미 존재한다면 추가하지 않음
             const nextTags = [...localTags, tag];
             setLocalTags(nextTags);
-            // onChangeTags(nextTags);
+            onChangeTags(nextTags);
         },
-        [localTags]
+        [localTags, onChangeTags]
     );
 
     const onRemove = useCallback(
         (tag) => {
             const nextTags = localTags.filter((t) => t !== tag);
             setLocalTags(nextTags);
-            // onChangeTags(nextTags);
+            onChangeTags(nextTags);
         },
-        [localTags]
+        [localTags, onChangeTags]
     );
 
     const onChange = useCallback((e) => {
@@ -107,10 +109,10 @@ const TagBox = () => {
         [input, insertTag]
     );
 
-    // // tags 값이 바뀔 때
-    // useEffect(() => {
-    //     setLocalTags(tags);
-    // }, [tags]);
+    // tags 값이 바뀔 때
+    useEffect(() => {
+        setLocalTags(tags);
+    }, [tags]);
 
     return (
         <TagBoxBlock>
