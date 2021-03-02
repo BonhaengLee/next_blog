@@ -1,13 +1,21 @@
 import React from "react";
-import Editor from "../../components/write/Editor";
+import { Provider } from "react-redux";
 import Responsive from "../../components/common/Responsive";
+import TagBox from "../../components/write/TagBox";
+import WriteActionButtons from "../../components/write/WriteActionButton";
+import EditorContainer from "../../containers/EditorContainer";
+import wrapper from "../../store/configureStore";
 
 const write = () => {
     return (
+        // <Provider store={configureStore()}>
         <Responsive>
-            <Editor />
+            <EditorContainer />
+            <TagBox />
+            <WriteActionButtons />
         </Responsive>
+        // </Provider>
     );
 };
 
-export default write;
+export default wrapper.withRedux(write);
