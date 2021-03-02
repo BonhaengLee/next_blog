@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeField, initialize } from "../reducers/write";
-import Editor from "../components/write/Editor";
-import wrapper from "../store/configureStore";
+import { changeField, initialize } from "../../reducers/write";
+import Editor from "../../components/write/Editor";
+import wrapper from "../../store/configureStore";
 
 const EditorContainer = () => {
     const dispatch = useDispatch();
